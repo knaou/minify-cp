@@ -1,8 +1,14 @@
 #!/bin/bash
 
-TEMP_DIR=/tmp/minifier
+TEMP_DIR=/tmp/minify-cp
 
 function usage_exit() {
+	echo "$0 [-a file] [-b executable] [-t temp_dir] [-h]" >&2
+	echo "    -a: Add file" >&2
+	echo "    -b: Add files as executable" >&2
+	echo "        Files means itself and .so file used by it" >&2
+	echo "    -t: Set path of added files" >&2
+	echo "    -h: show this help" >&2
 	exit 1
 }
 
@@ -30,14 +36,14 @@ function add_binary() {
 	done
 }
 
-while getopts ab:oh OPT
+while getopts ab:t:h OPT
 do
 	case $OPT in
 		a) copy $OPTARG
 			;;
 		b) add_binary $OPTARG
 			;;
-		o) $OUT="TRUE"
+		t) TEMP_DIR=$OPTARG
 			;;
 		h) usage_exit
 			;;
@@ -47,8 +53,6 @@ do
 done
 shift $((OPTIND - 1))
 
-if [ "$OUT" == "TRUE" ]; then
-	cd $TEMP_DIR
-	tar zc .
-fi
+cd $TEMP_DIR
+tar zc .
 
