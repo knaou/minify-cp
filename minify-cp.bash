@@ -30,12 +30,14 @@ function add_binary() {
 	done
 }
 
-while getopts ab:h OPT
+while getopts ab:oh OPT
 do
 	case $OPT in
-		a)  copy $OPTARG
+		a) copy $OPTARG
 			;;
-		b)  add_binary $OPTARG
+		b) add_binary $OPTARG
+			;;
+		o) $OUT="TRUE"
 			;;
 		h) usage_exit
 			;;
@@ -45,7 +47,7 @@ do
 done
 shift $((OPTIND - 1))
 
-if [ "$ARCHIVE" == "TRUE" ]; then
+if [ "$OUT" == "TRUE" ]; then
 	cd $TEMP_DIR
 	tar zc .
 fi
