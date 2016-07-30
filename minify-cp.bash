@@ -24,9 +24,9 @@ function add_binary() {
 		cut -f3 -d' '
 		echo $FILES \
 	)
-	copy_file $1
+	copy $1
 	for file in $FILES; do
-		copy_file $file
+		copy $file
 	done
 }
 
